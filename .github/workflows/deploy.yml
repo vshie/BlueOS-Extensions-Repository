@@ -24,9 +24,16 @@ jobs:
         with:
           python-version: '3.13'
 
+      # Ubuntu 26.04 runners no longer come with Yarn's apt repository, so install Node and
+      # the Yarn version yarn.lock was made with (classic, lockfile v1) explicitly.
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Install
         run: |
-          sudo apt install -y yarn
+          npm install --global yarn@1.22.22
           python -m pip install --editable .
           rm -rf blueos_extensions_repository.egg-info
           mkdir build
